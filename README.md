@@ -1,0 +1,2 @@
+# afitdgm-redirect
+redirect page
