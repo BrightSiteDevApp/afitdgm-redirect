@@ -81,7 +81,7 @@
             <i class="fas fa-spinner fa-spin"></i> Redirecting in <span id="countdown">5</span> seconds
         </div>
         
-        <a href="https://brytdgm.name.ng/" class="btn">
+        <a href="https://brytdgm.name.ng/" class="btn" id="manual-btn">
             Take Me There Now <i class="fas fa-arrow-right"></i>
         </a>
     </div>
@@ -93,6 +93,18 @@
         // Timer Logic
         let timeLeft = 5;
         const countdownEl = document.getElementById('countdown');
+        const manualBtn = document.getElementById('manual-btn');
+        
+        // Grab the exact path the user was trying to reach (e.g., /product/index.html?id=123)
+        const pathAndQuery = window.location.pathname + window.location.search;
+        let finalDestination = newDomain;
+        
+        if (pathAndQuery !== "/" && pathAndQuery !== "") {
+            finalDestination = newDomain.replace(/\/$/, '') + pathAndQuery;
+        }
+
+        // Update the manual button to point exactly to their intended destination
+        manualBtn.href = finalDestination;
         
         const timer = setInterval(() => {
             timeLeft--;
@@ -102,18 +114,7 @@
             
             if (timeLeft <= 0) {
                 clearInterval(timer);
-                
-                // Keep the exact path if they linked to a specific product
-                // e.g. afitdgm.store/product/index.html?id=123 -> brytdgm.name.ng/product/index.html?id=123
-                const pathAndQuery = window.location.pathname + window.location.search;
-                
-                // If they are just at the root domain, go to the root of the new domain
-                if (pathAndQuery === "/" || pathAndQuery === "") {
-                    window.location.href = newDomain;
-                } else {
-                    // Otherwise, forward them to the exact page they were trying to reach
-                    window.location.href = newDomain.replace(/\/$/, '') + pathAndQuery;
-                }
+                window.location.href = finalDestination;
             }
         }, 1000);
     </script>
